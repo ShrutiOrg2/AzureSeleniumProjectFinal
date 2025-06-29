@@ -12,7 +12,14 @@ public class BingSearchTest {
 
     @BeforeClass
     public void setup() {
+   String os = System.getProperty("os.name").toLowerCase();
+    if (os.contains("win")) {
         System.setProperty("webdriver.chrome.driver", "C:\\WebDrivers\\chromedriver.exe");
+    } else {
+        // On GitHub Actions, assuming chromedriver is in PATH after setup-chrome
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+    }
+        //System.setProperty("webdriver.chrome.driver", "C:\\WebDrivers\\chromedriver.exe");
         driver = new ChromeDriver();
     }
 
