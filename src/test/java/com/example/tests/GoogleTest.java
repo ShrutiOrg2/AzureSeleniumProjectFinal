@@ -12,7 +12,7 @@ public class GoogleTest {
 
     @BeforeClass
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:\\WebDrivers\\chromedriver.exe");
         driver = new ChromeDriver();
     }
 
