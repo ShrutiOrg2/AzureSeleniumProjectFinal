@@ -20,7 +20,7 @@ public class WikipediaTest {
         driver.get("https://www.wikipedia.org");
         String heading = driver.findElement(By.className("central-textlogo__image")).getAttribute("alt");
         System.out.println("Wikipedia heading image alt text: " + heading);
-        Assert.assertEquals(heading, "Wikipedia");
+        Assert.assertEquals(heading, "Wikipediaa");
     }
 
     @AfterClass
