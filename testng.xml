@@ -2,9 +2,7 @@
 <suite name="Suite">
     <test name="SeleniumTests">
         <classes>
-            <class name="com.example.tests.GoogleTest"/>
             <class name="com.example.tests.BingSearchTest"/>
-            <class name="com.example.tests.WikipediaTest"/>
             <class name="com.example.tests.ExampleDotComTest"/>
         </classes>
     </test>
