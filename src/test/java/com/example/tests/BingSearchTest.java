@@ -23,8 +23,8 @@ public class BingSearchTest {
         options.addArguments("--disable-dev-shm-usage");
 
         driver = new ChromeDriver(options);
-        System.out.print("good");
-        System.out.print("good");
+        System.out.print("gooddd");
+        
         
     }
 
