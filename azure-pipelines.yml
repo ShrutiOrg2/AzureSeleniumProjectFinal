@@ -6,23 +6,58 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: JavaToolInstaller@0
-  inputs:
-    versionSpec: '17'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
+stages:
+# Stage 1: Build
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Compile Project'
+    steps:
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '17'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
 
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'clean test'
-    options: '-Dmaven.test.failure.ignore=false'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/testng-results.xml'
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        goals: 'clean compile'
+        options: '-Dmaven.test.skip=true'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: 'target/surefire-reports'
-    artifactName: 'TestNG-Reports'
-    publishLocation: 'Container'
+# Stage 2: Test
+- stage: Test
+  displayName: 'Test Stage'
+  dependsOn: Build
+  jobs:
+  - job: TestJob
+    displayName: 'Run Selenium Tests'
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        goals: 'test'
+        options: '-Dmaven.test.failure.ignore=false'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/*.xml'
+
+    - script: |
+        echo "Zipping reports..."
+        zip -r testng-reports.zip target/surefire-reports
+      displayName: 'Zip TestNG Reports'
+
+# Stage 3: Publish
+- stage: Publish
+  displayName: 'Publish Stage'
+  dependsOn: Test
+  condition: succeededOrFailed()  # Always run, even if tests fail
+  jobs:
+  - job: PublishJob
+    displayName: 'Publish Test Artifacts'
+    steps:
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: 'testng-reports.zip'
+        artifactName: 'Selenium-Reports'
+        publishLocation: 'Container'
