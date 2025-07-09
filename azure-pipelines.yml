@@ -42,13 +42,13 @@ stages:
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/*.xml'
 
-     - script: |
+    - script: |
         echo "Zipping reports..."
-        zip -r testng-reports.zip target/surefire-reports
+        zip -r $(Build.SourcesDirectory)/testng-reports.zip target/surefire-reports
       displayName: 'Zip TestNG Reports'
 
     - task: PublishBuildArtifacts@1
       inputs:
-        pathToPublish: 'testng-reports.zip'
+        pathToPublish: '$(Build.SourcesDirectory)/testng-reports.zip'
         artifactName: 'Selenium-Reports'
         publishLocation: 'Container'
