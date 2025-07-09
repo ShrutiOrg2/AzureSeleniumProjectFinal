@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 
 public class BingSearchTest {
     WebDriver driver;
@@ -22,6 +23,7 @@ public class BingSearchTest {
         options.addArguments("--disable-dev-shm-usage");
 
         driver = new ChromeDriver(options);
+        System.out.print("good");
     }
 
     @Test
