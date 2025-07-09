@@ -46,6 +46,8 @@ stages:
         echo "Zipping reports..."
         zip -r testng-reports.zip target/surefire-reports
       displayName: 'Zip TestNG Reports'
+    - script: ls -l testng-reports.zip
+      displayName: 'Check if testng-reports.zip exists'
 
 # Stage 3: Publish
 - stage: Publish
