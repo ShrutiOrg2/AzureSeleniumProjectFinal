@@ -24,6 +24,7 @@ public class BingSearchTest {
 
         driver = new ChromeDriver(options);
         System.out.print("good");
+        System.out.print("good");
     }
 
     @Test
