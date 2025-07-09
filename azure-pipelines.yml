@@ -46,8 +46,8 @@ stages:
         echo "Zipping reports..."
         zip -r testng-reports.zip target/surefire-reports
       displayName: 'Zip TestNG Reports'
-    - script: ls -l testng-reports.zip
-      displayName: 'Check if testng-reports.zip exists'
+    - script: ls -l $(Build.SourcesDirectory)/testng-reports.zip
+      displayName: 'Verify zipped report exists before publishing'
 
 # Stage 3: Publish
 - stage: Publish
@@ -60,6 +60,6 @@ stages:
     steps:
     - task: PublishBuildArtifacts@1
       inputs:
-        pathToPublish: 'testng-reports.zip'
+        pathToPublish: '$(Build.SourcesDirectory)/testng-reports.zip'
         artifactName: 'Selenium-Reports'
         publishLocation: 'Container'
